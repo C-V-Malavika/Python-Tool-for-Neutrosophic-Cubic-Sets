@@ -58,11 +58,18 @@ class NS:
 
 class NCN:
 
-    def __init__(self, T_lower, T_upper, I_lower, I_upper, F_lower, F_upper, truth, indeterminacy, falsehood):
+    def __init__(self, 
+            T_lower, T_upper, 
+            I_lower, I_upper, 
+            F_lower, F_upper, 
+            truth, 
+            indeterminacy, 
+            falsehood):
 
         self.ins = INS(T_lower, T_upper, I_lower, I_upper, F_lower, F_upper)
         self.ns = NS(truth, indeterminacy, falsehood)
 
+        
     def __len__(self):
 
         return len(self._number)
@@ -219,15 +226,15 @@ class NCN:
     def containment(self, other):
 
         return (
-            self.ins.T_lower < other.ins.T_lower and
-            self.ins.T_upper < other.ins.T_upper and
-            self.ins.I_lower > other.ins.I_lower and
-            self.ins.I_upper > other.ins.I_upper and
-            self.ins.F_lower > other.ins.F_lower and
-            self.ins.F_upper > other.ins.F_upper and
-            self.ns.T < other.ns.T and
-            self.ns.I > other.ns.I and
-            self.ns.F > other.ns.F
+            self.ins.T_lower <= other.ins.T_lower and
+            self.ins.T_upper <= other.ins.T_upper and
+            self.ins.I_lower >= other.ins.I_lower and
+            self.ins.I_upper >= other.ins.I_upper and
+            self.ins.F_lower >= other.ins.F_lower and
+            self.ins.F_upper >= other.ins.F_upper and
+            self.ns.T <= other.ns.T and
+            self.ns.I >= other.ns.I and
+            self.ns.F >= other.ns.F
         )
 
 
@@ -428,4 +435,4 @@ class NCS:
         for i in range(len(self.ncs)):
             distance_set.append(self.ncs[i].distance_measure(other.ncs[i]))
 
-        return (1 / len(self._item)) * sum(distance_set)
+        return (1 / len(self.ncs)) * sum(distance_set)
