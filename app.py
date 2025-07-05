@@ -197,7 +197,7 @@ else:
 
     # Binary operations
     st.markdown("<h5>Binary Operations</h5>", unsafe_allow_html = True)
-    c1, c2, c3, c4 = st.columns(4)
+    c1, c2, c3, c4, c5 = st.columns(5)
     with c1:
         if st.button("P-UNION"):
             try:
@@ -226,27 +226,34 @@ else:
             except Exception as e:
                 st.error(f"Error in R-Intersection: {e}")
 
-    c1, c2, c3, c4 = st.columns(4)
-    with c1:
-        if st.button("EQUALITY"):
+    with c5:
+        if st.button("DISTANCE MEASURE"):
             try:
-                result = st.session_state.NCS_A_obj = st.session_state.NCS_B_obj
+                result = st.session_state.NCS_A_obj.distance_measure(st.session_state.NCS_B_obj)
             except Exception as e:
-                st.error(f"Error in equality: {e}")
+                st.error(f"Error in computing distance: {e}")
 
-    with c2:
+    c1, c2, c3, c4, c5 = st.columns(5)
+    with c1:
         if st.button("ADDITION"):
             try:
                 result = str(st.session_state.NCS_A_obj + st.session_state.NCS_B_obj)
             except Exception as e:
                 st.error(f"Error in addition: {e}")
 
-    with c3:
+    with c2:
         if st.button("MULTIPLICATION"):
             try:
                 result = str(st.session_state.NCS_A_obj * st.session_state.NCS_B_obj)
             except Exception as e:
                 st.error(f"Error in multiplication: {e}")
+
+    with c3:
+        if st.button("EQUALITY"):
+            try:
+                result = st.session_state.NCS_A_obj = st.session_state.NCS_B_obj
+            except Exception as e:
+                st.error(f"Error in equality: {e}")
 
     with c4:
         if st.button("CONTAINMENT"):
@@ -254,6 +261,9 @@ else:
                 result = st.session_state.NCS_A_obj.containment(st.session_state.NCS_B_obj)
             except Exception as e:
                 st.error(f"Error in containment: {e}")
+    
+    with c5:
+        st.empty()
 
     # Result
     st.markdown("<h4>Result of the Operation</h4>", unsafe_allow_html = True)
