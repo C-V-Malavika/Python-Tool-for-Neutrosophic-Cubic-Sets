@@ -263,7 +263,11 @@ else:
                 st.error(f"Error in containment: {e}")
     
     with c5:
-        st.empty()
+        if st.button("CORRELATION"):
+            try:
+                result = st.session_state.NCS_A_obj.correlation_measure(st.session_state.NCS_B_obj)
+            except Exception as e:
+                st.error(f"Error in correlation coefficient: {e}")
 
     # Result
     st.markdown("<h4>Result of the Operation</h4>", unsafe_allow_html = True)

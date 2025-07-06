@@ -266,17 +266,32 @@ class NCN:
 
     def distance_measure(self, other):
 
-      return (1 / 9) * (
-          abs(self.ins.T_lower - other.ins.T_lower) +
-          abs(self.ins.I_lower - other.ins.I_lower) +
-          abs(self.ins.F_lower - other.ins.F_lower) +
-          abs(self.ins.T_upper - other.ins.T_upper) +
-          abs(self.ins.I_upper - other.ins.I_upper) +
-          abs(self.ins.F_upper - other.ins.F_upper) +
-          abs(self.ns.T - other.ns.T) +
-          abs(self.ns.I - other.ns.I) +
-          abs(self.ns.F - other.ns.F)
-      )
+        return (1 / 9) * (
+            abs(self.ins.T_lower - other.ins.T_lower) +
+            abs(self.ins.I_lower - other.ins.I_lower) +
+            abs(self.ins.F_lower - other.ins.F_lower) +
+            abs(self.ins.T_upper - other.ins.T_upper) +
+            abs(self.ins.I_upper - other.ins.I_upper) +
+            abs(self.ins.F_upper - other.ins.F_upper) +
+            abs(self.ns.T - other.ns.T) +
+            abs(self.ns.I - other.ns.I) +
+            abs(self.ns.F - other.ns.F)
+        )
+    
+
+    def correlation_measure(self, other):
+
+        return (
+            ((1 / 3) * (self.ns.T * other.ns.T + 
+                        self.ns.I * other.ns.I + 
+                        self.ns.F * other.ns.F)) +
+            ((1 / 6) * (self.ins.T_upper * other.ins.T_upper + 
+                        self.ins.T_lower * other.ins.T_lower + 
+                        self.ins.I_upper * other.ins.I_upper + 
+                        self.ins.I_lower * other.ins.I_lower + 
+                        self.ins.F_upper * other.ins.F_upper + 
+                        self.ins.F_lower * other.ins.F_lower))
+            )
     
 
 class NCS:
@@ -436,3 +451,21 @@ class NCS:
             distance_set.append(self.ncs[i].distance_measure(other.ncs[i]))
 
         return (1 / len(self.ncs)) * sum(distance_set)
+    
+
+    def correlation_measure(self, other):
+
+        correlation_self_other = 0
+        correlation_self_self = 0
+        correlation_other_other = 0
+
+        for i in range(len(self.ncs)):
+            correlation_self_other += self.ncs[i].correlation_measure(other.ncs[i])
+
+        for i in range(len(self.ncs)):
+            correlation_self_self += self.ncs[i].correlation_measure(self.ncs[i])
+
+        for i in range(len(self.ncs)):
+            correlation_other_other += other.ncs[i].correlation_measure(other.ncs[i])
+
+        return round((correlation_self_other / ((correlation_self_self * correlation_other_other) ** 0.5)), 2)
