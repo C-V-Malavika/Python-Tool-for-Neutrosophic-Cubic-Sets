@@ -78,7 +78,7 @@ with colA:
             for item in st.session_state.ncs_list_A:
                 NCS_A.add_element(NCN(*item[0], *item[1], *item[2], *item[3]))
             st.session_state.NCS_A_obj = NCS_A
-            st.text_area("NCS A be displayed here...", value = str(NCS_A), height = 150)
+            st.code(str(NCS_A), language = "text")
         except Exception as e:
             st.error(f"Error creating NCS A: {e}")
 
@@ -114,7 +114,7 @@ with colB:
             for item in st.session_state.ncs_list_B:
                 NCS_B.add_element(NCN(*item[0], *item[1], *item[2], *item[3]))
             st.session_state.NCS_B_obj = NCS_B
-            st.text_area("NCS B be displayed here...", value = str(NCS_B), height = 150)
+            st.code(str(NCS_B), language = "text")
         except Exception as e:
             st.error(f"Error creating NCS B: {e}")
 
@@ -251,7 +251,7 @@ else:
     with c3:
         if st.button("EQUALITY"):
             try:
-                result = st.session_state.NCS_A_obj = st.session_state.NCS_B_obj
+                result = st.session_state.NCS_A_obj == st.session_state.NCS_B_obj
             except Exception as e:
                 st.error(f"Error in equality: {e}")
 
@@ -271,4 +271,5 @@ else:
 
     # Result
     st.markdown("<h4>Result of the Operation</h4>", unsafe_allow_html = True)
-    st.text_area("Result will be displayed here...", value = str(result), height = 150)
+    if result != "":
+        st.code(str(result), language = "text")
