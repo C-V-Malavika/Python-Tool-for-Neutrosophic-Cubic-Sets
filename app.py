@@ -143,7 +143,7 @@ else:
 
     st.markdown("---")
     st.subheader("Operations on Neutrosophic Cubic Sets")
-    result = ""
+    result = None
 
     # Unary operations
     c1, c2 = st.columns(2)
@@ -159,7 +159,7 @@ else:
         if st.button("COMPLEMENT"):
             try:
                 obj = st.session_state.get(f"NCS_{unary_target[-1]}_obj")
-                result = str(obj.complement())
+                result = obj.complement()
             except Exception as e:
                 st.error(f"Error in complement: {e}")
 
@@ -191,7 +191,7 @@ else:
         if st.button("SCALAR MULTIPLICATION"):
             try:
                 obj = st.session_state.get(f"NCS_{unary_target[-1]}_obj")
-                result = str(obj.scalar_multiplication(scalar))
+                result = obj.scalar_multiplication(scalar)
             except Exception as e:
                 st.error(f"Error in scalar multiplication: {e}")
 
@@ -201,35 +201,35 @@ else:
     with c1:
         if st.button("P-UNION"):
             try:
-                result = str(st.session_state.NCS_A_obj.p_union(st.session_state.NCS_B_obj))
+                result = st.session_state.NCS_A_obj.p_union(st.session_state.NCS_B_obj)
             except Exception as e:
                 st.error(f"Error in P-Union: {e}")
 
     with c2:
         if st.button("P-INTERSECTION"):
             try:
-                result = str(st.session_state.NCS_A_obj.p_intersection(st.session_state.NCS_B_obj))
+                result = st.session_state.NCS_A_obj.p_intersection(st.session_state.NCS_B_obj)
             except Exception as e:
                 st.error(f"Error in P-Intersection: {e}")
 
     with c3:
         if st.button("R-UNION"):
             try:
-                result = str(st.session_state.NCS_A_obj.r_union(st.session_state.NCS_B_obj))
+                result = st.session_state.NCS_A_obj.r_union(st.session_state.NCS_B_obj)
             except Exception as e:
                 st.error(f"Error in R-Union: {e}")
 
     with c4:
         if st.button("R-INTERSECTION"):
             try:
-                result = str(st.session_state.NCS_A_obj.r_intersection(st.session_state.NCS_B_obj))
+                result = st.session_state.NCS_A_obj.r_intersection(st.session_state.NCS_B_obj)
             except Exception as e:
                 st.error(f"Error in R-Intersection: {e}")
 
     with c5:
         if st.button("DISTANCE MEASURE"):
             try:
-                result = st.session_state.NCS_A_obj.distance_measure(st.session_state.NCS_B_obj)
+                result = str(st.session_state.NCS_A_obj.distance_measure(st.session_state.NCS_B_obj))
             except Exception as e:
                 st.error(f"Error in computing distance: {e}")
 
@@ -237,39 +237,39 @@ else:
     with c1:
         if st.button("ADDITION"):
             try:
-                result = str(st.session_state.NCS_A_obj + st.session_state.NCS_B_obj)
+                result = st.session_state.NCS_A_obj + st.session_state.NCS_B_obj
             except Exception as e:
                 st.error(f"Error in addition: {e}")
 
     with c2:
         if st.button("MULTIPLICATION"):
             try:
-                result = str(st.session_state.NCS_A_obj * st.session_state.NCS_B_obj)
+                result = st.session_state.NCS_A_obj * st.session_state.NCS_B_obj
             except Exception as e:
                 st.error(f"Error in multiplication: {e}")
 
     with c3:
         if st.button("EQUALITY"):
             try:
-                result = st.session_state.NCS_A_obj == st.session_state.NCS_B_obj
+                result = str(st.session_state.NCS_A_obj == st.session_state.NCS_B_obj)
             except Exception as e:
                 st.error(f"Error in equality: {e}")
 
     with c4:
         if st.button("CONTAINMENT"):
             try:
-                result = st.session_state.NCS_A_obj.containment(st.session_state.NCS_B_obj)
+                result = str(st.session_state.NCS_A_obj.containment(st.session_state.NCS_B_obj))
             except Exception as e:
                 st.error(f"Error in containment: {e}")
     
     with c5:
         if st.button("CORRELATION"):
             try:
-                result = st.session_state.NCS_A_obj.correlation_measure(st.session_state.NCS_B_obj)
+                result = str(st.session_state.NCS_A_obj.correlation_measure(st.session_state.NCS_B_obj))
             except Exception as e:
                 st.error(f"Error in correlation coefficient: {e}")
 
     # Result
-    st.markdown("<h4>Result of the Operation</h4>", unsafe_allow_html = True)
-    if result != "":
+    if isinstance(result, NCS) or isinstance(result, str):
+        st.markdown("<h4>Result of the Operation</h4>", unsafe_allow_html = True)
         st.code(str(result), language = "text")
