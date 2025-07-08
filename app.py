@@ -153,9 +153,11 @@ else:
     with c2:
         scalar = st.number_input("Enter scalar (For Scalar Multiplication):", min_value = 0.0, value = 1.0, step = 0.1, key = "scalar_input")
 
-    c1, c2, c3, c4, c5 = st.columns(5)
-
+    c1, c2, c3, c4, c5, c6 = st.columns(6)
     with c1:
+        st.empty()
+
+    with c2:
         if st.button("COMPLEMENT"):
             try:
                 obj = st.session_state.get(f"NCS_{unary_target[-1]}_obj")
@@ -163,7 +165,7 @@ else:
             except Exception as e:
                 st.error(f"Error in complement: {e}")
 
-    with c2:
+    with c3:
         if st.button("ACCURACY"):
             try:
                 obj = st.session_state.get(f"NCS_{unary_target[-1]}_obj")
@@ -171,7 +173,7 @@ else:
             except Exception as e:
                 st.error(f"Error in accuracy: {e}")
 
-    with c3:
+    with c4:
         if st.button("SCORE"):
             try:
                 obj = st.session_state.get(f"NCS_{unary_target[-1]}_obj")
@@ -179,24 +181,20 @@ else:
             except Exception as e:
                 st.error(f"Error in score: {e}")
 
-    with c4:
+    with c5:
         if st.button("CERTAINTY"):
             try:
                 obj = st.session_state.get(f"NCS_{unary_target[-1]}_obj")
                 result = str(obj.certainty())
             except Exception as e:
                 st.error(f"Error in certainty: {e}")
-
-    with c5:
-        if st.button("SCALAR MULTIPLICATION"):
-            try:
-                obj = st.session_state.get(f"NCS_{unary_target[-1]}_obj")
-                result = obj.scalar_multiplication(scalar)
-            except Exception as e:
-                st.error(f"Error in scalar multiplication: {e}")
+    
+    with c6:
+        st.empty()
 
     # Binary operations
     st.markdown("<h5>Binary Operations</h5>", unsafe_allow_html = True)
+    
     c1, c2, c3, c4, c5 = st.columns(5)
     with c1:
         if st.button("P-UNION"):
@@ -224,14 +222,15 @@ else:
             try:
                 result = st.session_state.NCS_A_obj.r_intersection(st.session_state.NCS_B_obj)
             except Exception as e:
-                st.error(f"Error in R-Intersection: {e}")
+                st.error(f"Error in R-Intersection: {e}") 
 
     with c5:
-        if st.button("DISTANCE MEASURE"):
+        if st.button("SCALAR MULTIPLICATION"):
             try:
-                result = str(st.session_state.NCS_A_obj.distance_measure(st.session_state.NCS_B_obj))
+                obj = st.session_state.get(f"NCS_{unary_target[-1]}_obj")
+                result = obj.scalar_multiplication(scalar)
             except Exception as e:
-                st.error(f"Error in computing distance: {e}")
+                st.error(f"Error in scalar multiplication: {e}")    
 
     c1, c2, c3, c4, c5 = st.columns(5)
     with c1:
@@ -261,13 +260,6 @@ else:
                 result = str(st.session_state.NCS_A_obj.containment(st.session_state.NCS_B_obj))
             except Exception as e:
                 st.error(f"Error in containment: {e}")
-    
-    with c5:
-        if st.button("CORRELATION"):
-            try:
-                result = str(st.session_state.NCS_A_obj.correlation_measure(st.session_state.NCS_B_obj))
-            except Exception as e:
-                st.error(f"Error in correlation coefficient: {e}")
 
     # Result
     if isinstance(result, NCS) or isinstance(result, str):
