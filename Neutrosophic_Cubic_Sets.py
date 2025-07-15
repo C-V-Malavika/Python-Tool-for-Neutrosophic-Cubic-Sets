@@ -69,16 +69,6 @@ class NCN:
         self.ins = INS(T_lower, T_upper, I_lower, I_upper, F_lower, F_upper)
         self.ns = NS(truth, indeterminacy, falsehood)
 
-        
-    def __len__(self):
-
-        return len(self._number)
-
-
-    def __getitem__(self, index):
-
-        return self._number[index]
-
 
     def __str__(self):
 
